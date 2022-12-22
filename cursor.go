@@ -13,7 +13,24 @@ func NewCursor(s tcell.Screen) *Cursor {
 	}
 }
 
-func (c *Cursor) MoveUp() {
+func (c *Cursor) Draw() {
+	c.screen.ShowCursor(c.x, c.y)
+}
+
+func (c *Cursor) HandleEvents(ev *tcell.EventKey) {
+	switch ev.Rune() {
+	case 'h':
+		c.moveRight()
+	case 'j':
+		c.moveDown()
+	case 'k':
+		c.moveUp()
+	case 'l':
+		c.moveLeft()
+	}
+}
+
+func (c *Cursor) moveUp() {
 	if c.y == 0 {
 		c.screen.Beep()
 	} else {
@@ -21,18 +38,14 @@ func (c *Cursor) MoveUp() {
 	}
 }
 
-func (c *Cursor) MoveDown() {
+func (c *Cursor) moveDown() {
 	c.y++
 }
 
-func (c *Cursor) MoveLeft() {
+func (c *Cursor) moveLeft() {
 	c.x--
 }
 
-func (c *Cursor) MoveRight() {
+func (c *Cursor) moveRight() {
 	c.x++
-}
-
-func (c *Cursor) GetPos() (int, int) {
-	return c.x, c.y
 }
