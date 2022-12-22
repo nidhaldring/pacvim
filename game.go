@@ -33,16 +33,16 @@ func (g *Game) quit() {
 }
 
 func (g *Game) handleMovementKeys(key rune) {
-	switch key {
-	case 'h':
-		g.cursor.MoveLeft()
-	case 'l':
-		g.cursor.MoveRight()
-	case 'j':
-		g.cursor.MoveDown()
-	case 'k':
-		g.cursor.MoveUp()
-	}
+	// switch key {
+	// case 'h':
+	// 	g.cursor.MoveLeft()
+	// case 'l':
+	// 	g.cursor.MoveRight()
+	// case 'j':
+	// 	g.cursor.MoveDown()
+	// case 'k':
+	// 	g.cursor.MoveUp()
+	// }
 }
 
 func (g *Game) handleEvents() {

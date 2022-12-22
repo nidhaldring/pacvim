@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // func quit(s tcell.Screen) {
 // 	s.Fini()
 // 	os.Exit(0)
@@ -33,7 +35,5 @@ package main
 // }
 
 func main() {
-	g := NewGame()
-
-	g.Start()
+	fmt.Println(NewMap())
 }
