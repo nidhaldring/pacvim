@@ -10,12 +10,12 @@ import (
 func NewScreen() tcell.Screen {
 	s, err := tcell.NewScreen()
 	if err != nil {
-		log.Fatalf("yo ?? %+v", err)
+		log.Fatalf(err.Error())
 		os.Exit(1)
 	}
 
-	if err := s.Init(); s != nil {
-		log.Fatalf("yoyo %v", err)
+	if err := s.Init(); err != nil {
+		log.Fatalf(err.Error())
 		os.Exit(1)
 	}
 

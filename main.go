@@ -33,5 +33,7 @@ package main
 // }
 
 func main() {
-	NewScreen()
+	g := NewGame()
+
+	g.Start()
 }

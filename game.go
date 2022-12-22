@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/gdamore/tcell"
@@ -14,7 +13,6 @@ type Game struct {
 
 func NewGame() *Game {
 	screen := NewScreen()
-	fmt.Println("after new screen")
 	return &Game{
 		screen: screen,
 		cursor: NewCursor(screen),
