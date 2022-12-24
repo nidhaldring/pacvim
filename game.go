@@ -14,10 +14,11 @@ type Game struct {
 
 func NewGame() *Game {
 	screen := NewScreen()
+	gMap := NewMap(screen)
 	return &Game{
 		screen: screen,
-		gMap:   NewMap(screen),
-		cursor: NewCursor(screen),
+		gMap:   gMap,
+		cursor: NewCursor(screen, gMap),
 	}
 }
 

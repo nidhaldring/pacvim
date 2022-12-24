@@ -5,11 +5,15 @@ import "github.com/gdamore/tcell"
 type Cursor struct {
 	x, y   int
 	screen tcell.Screen
+	gMap   *Map
 }
 
-func NewCursor(s tcell.Screen) *Cursor {
+func NewCursor(s tcell.Screen, gMap *Map) *Cursor {
 	return &Cursor{
+		x:      1,
+		y:      1,
 		screen: s,
+		gMap:   gMap,
 	}
 }
 
@@ -20,32 +24,46 @@ func (c *Cursor) Draw() {
 func (c *Cursor) HandleEvents(ev *tcell.EventKey) {
 	switch ev.Rune() {
 	case 'h':
-		c.moveRight()
+		c.moveLeft()
 	case 'j':
 		c.moveDown()
 	case 'k':
 		c.moveUp()
 	case 'l':
-		c.moveLeft()
+		c.moveRight()
+
 	}
 }
 
 func (c *Cursor) moveUp() {
-	if c.y == 0 {
+	if !(c.gMap.IsTraversable(c.x, c.y-1)) {
 		c.screen.Beep()
 	} else {
 		c.y--
 	}
+
 }
 
 func (c *Cursor) moveDown() {
-	c.y++
+	if !(c.gMap.IsTraversable(c.x, c.y+1)) {
+		c.screen.Beep()
+	} else {
+		c.y++
+	}
 }
 
 func (c *Cursor) moveLeft() {
-	c.x--
+	if !(c.gMap.IsTraversable(c.x-1, c.y)) {
+		c.screen.Beep()
+	} else {
+		c.x--
+	}
 }
 
 func (c *Cursor) moveRight() {
-	c.x++
+	if !(c.gMap.IsTraversable(c.x+1, c.y)) {
+		c.screen.Beep()
+	} else {
+		c.x++
+	}
 }
