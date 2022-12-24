@@ -24,16 +24,16 @@ func NewGame() *Game {
 
 func (g *Game) Start() {
 	for {
-		g.screen.Clear()
-		g.Draw()
 		g.handleEvents()
-		g.screen.Show()
+		g.Draw()
 	}
 }
 
 func (g *Game) Draw() {
+	g.screen.Clear()
 	g.gMap.Draw()
 	g.cursor.Draw()
+	g.screen.Show()
 }
 
 func (g *Game) quit() {
