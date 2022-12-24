@@ -71,9 +71,9 @@ func NewMap(screen tcell.Screen) *Map {
 }
 
 func (m *Map) Draw() {
-	for i := 0; i < len(m.elements); i++ {
-		for j := 0; j < len(m.elements[i]); j++ {
-			m.elements[i][j].Draw()
+	for _, elmRow := range m.elements {
+		for _, elm := range elmRow {
+			elm.Draw()
 		}
 	}
 }

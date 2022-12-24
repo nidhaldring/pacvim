@@ -40,19 +40,6 @@ func (g *Game) quit() {
 	os.Exit(0)
 }
 
-// func (g *Game) handleMovementKeys(key rune) {
-// 	// switch key {
-// 	// case 'h':
-// 	// 	g.cursor.MoveLeft()
-// 	// case 'l':
-// 	// 	g.cursor.MoveRight()
-// 	// case 'j':
-// 	// 	g.cursor.MoveDown()
-// 	// case 'k':
-// 	// 	g.cursor.MoveUp()
-// 	// }
-// }
-
 func (g *Game) handleEvents() {
 	ev := g.screen.PollEvent()
 	switch ev := ev.(type) {
@@ -62,7 +49,6 @@ func (g *Game) handleEvents() {
 		} else {
 			g.cursor.HandleEvents(ev)
 		}
-
 	}
 
 }
