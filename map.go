@@ -32,12 +32,12 @@ func NewMap(screen tcell.Screen) *Map {
 }
 
 func (m *Map) IsTraversable(x, y int) bool {
-	if x < 0 || y < 0 || x > len(m.elements) || y > len(m.elements[x]) {
+	if x < 0 || y < 0 || y > len(m.elements) || x > len(m.elements[y]) {
 		return false
 	}
 
-	elm := m.elements[x][y]
-	return elm.elType == BLOCKING
+	elm := m.elements[y][x]
+	return elm.elType != BLOCKING
 }
 
 func (m *Map) Draw() {
