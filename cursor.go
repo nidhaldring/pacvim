@@ -8,13 +8,16 @@ type Cursor struct {
 	gMap   *Map
 }
 
-func NewCursor(s tcell.Screen, gMap *Map) *Cursor {
+func NewCursor(s tcell.Screen) *Cursor {
 	return &Cursor{
 		x:      1,
 		y:      1,
 		screen: s,
-		gMap:   gMap,
 	}
+}
+
+func (c *Cursor) SetMap(gMap *Map) {
+	c.gMap = gMap
 }
 
 func (c *Cursor) Draw() {

@@ -15,10 +15,15 @@ type Game struct {
 func NewGame() *Game {
 	screen := NewScreen()
 	gMap := NewMap(screen)
+	cursor := NewCursor(screen)
+
+	gMap.setCursor(cursor)
+	cursor.SetMap(gMap)
+
 	return &Game{
 		screen: screen,
 		gMap:   gMap,
-		cursor: NewCursor(screen, gMap),
+		cursor: cursor,
 	}
 }
 

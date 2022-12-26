@@ -1,12 +1,15 @@
 package main
 
-import "github.com/gdamore/tcell"
+import (
+	"github.com/gdamore/tcell"
+)
 
 type ElementType int
 
 const (
 	DEADLY ElementType = iota
 	EATABLE
+	EATEN
 	BLOCKING
 )
 
@@ -37,6 +40,23 @@ func newElement(screen tcell.Screen, ch rune, x, y int) Element {
 	}
 }
 
+func (e *Element) Intersect(x, y int) bool {
+	return x == e.x && y == e.y
+}
+
+func (e *Element) CanBeEaten() bool {
+	return e.elType == EATABLE
+}
+
+func (e *Element) MarkAsEaten() {
+	e.elType = EATEN
+}
+
 func (e *Element) Draw() {
-	e.screen.SetContent(e.x, e.y, e.value, nil, DefTheme)
+	theme := DefTheme
+	if e.elType == EATEN {
+		theme = EatenTheme
+	}
+
+	e.screen.SetContent(e.x, e.y, e.value, nil, theme)
 }
