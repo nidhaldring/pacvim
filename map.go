@@ -10,7 +10,7 @@ import (
 )
 
 type Map struct {
-	elements              [][]Element
+	elements              [][]*Element
 	eatableElementsNumber int
 	cursor                *Cursor
 	screen                tcell.Screen
@@ -18,11 +18,11 @@ type Map struct {
 
 func NewMap(screen tcell.Screen) *Map {
 	mapLines := readMap("map.txt")
-	elements := make([][]Element, 0)
+	elements := make([][]*Element, 0)
 	eatableElementsNumber := 0
 
 	for i := 0; i < len(mapLines); i++ {
-		row := make([]Element, 0)
+		row := make([]*Element, 0)
 		for j := 0; j < len(mapLines[i]); j++ {
 			ch := rune(mapLines[i][j])
 			elm := newElement(screen, ch, j, i)

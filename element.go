@@ -20,7 +20,7 @@ type Element struct {
 	screen tcell.Screen
 }
 
-func newElement(screen tcell.Screen, ch rune, x, y int) Element {
+func newElement(screen tcell.Screen, ch rune, x, y int) *Element {
 	var elType ElementType
 	switch ch {
 	case '~':
@@ -31,7 +31,7 @@ func newElement(screen tcell.Screen, ch rune, x, y int) Element {
 		elType = EATABLE
 	}
 
-	return Element{
+	return &Element{
 		x:      x,
 		y:      y,
 		elType: elType,
