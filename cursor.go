@@ -24,6 +24,10 @@ func (c *Cursor) Draw() {
 	c.screen.ShowCursor(c.x, c.y)
 }
 
+func (c *Cursor) Hide() {
+	c.screen.HideCursor()
+}
+
 func (c *Cursor) HandleEvents(ev *tcell.EventKey) {
 	switch ev.Rune() {
 	case 'h':

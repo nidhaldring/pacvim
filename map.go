@@ -12,6 +12,7 @@ import (
 type Map struct {
 	elements              [][]*Element
 	eatableElementsNumber int
+	eatenElementsNumber   int
 	cursor                *Cursor
 	screen                tcell.Screen
 }
@@ -51,27 +52,37 @@ func (m *Map) IsTraversable(x, y int) bool {
 	}
 
 	elm := m.elements[y][x]
-	return elm.elType != BLOCKING
+	return elm.elType != BLOCKING && elm.elType != DEADLY
 }
 
 func (m *Map) Draw() {
-	if m.eatableElementsNumber == 0 {
+	if m.eatenElementsNumber == m.eatableElementsNumber {
 		m.DrawWinningMap()
+		m.cursor.Hide()
 		return
 	}
 
 	m.DrawMapElements()
+	m.DrawScore()
 }
 
 func (m *Map) DrawMapElements() {
 	for _, elmRow := range m.elements {
 		for _, elm := range elmRow {
 			if elm.CanBeEaten() && elm.Intersect(m.cursor.x, m.cursor.y) {
-				m.eatableElementsNumber--
+				m.eatenElementsNumber++
 				elm.MarkAsEaten()
 			}
 			elm.Draw()
 		}
+	}
+}
+
+func (m *Map) DrawScore() {
+	score := fmt.Sprintf("%d/%d", m.eatenElementsNumber, m.eatableElementsNumber)
+	_, screenY := m.screen.Size()
+	for i, c := range score {
+		m.screen.SetContent(i, screenY-30, c, nil, ScoreTheme)
 	}
 }
 
