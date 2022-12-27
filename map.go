@@ -52,7 +52,7 @@ func (m *Map) IsTraversable(x, y int) bool {
 	}
 
 	elm := m.elements[y][x]
-	return elm.elType != BLOCKING && elm.elType != DEADLY
+	return elm.elType != BLOCKING
 }
 
 func (m *Map) Draw() {
@@ -82,7 +82,7 @@ func (m *Map) DrawScore() {
 	score := fmt.Sprintf("%d/%d", m.eatenElementsNumber, m.eatableElementsNumber)
 	_, screenY := m.screen.Size()
 	for i, c := range score {
-		m.screen.SetContent(i, screenY-30, c, nil, ScoreTheme)
+		m.screen.SetContent(i, screenY-10, c, nil, ScoreTheme)
 	}
 }
 
