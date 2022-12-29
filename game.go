@@ -130,6 +130,7 @@ func (g *Game) lose() {
 }
 
 func (g *Game) drawWinningScreen() {
+	g.cursor.Hide()
 	msg := "CONGRATS, YOU'VE WON !"
 	for i, c := range msg {
 		g.screen.SetContent(i, 0, c, nil, DefTheme)
@@ -137,6 +138,7 @@ func (g *Game) drawWinningScreen() {
 }
 
 func (g *Game) drawLosingScreen() {
+	g.cursor.Hide()
 	msg := "YOU HAVE LOST!"
 	for i, c := range msg {
 		g.screen.SetContent(i, 0, c, nil, DefTheme)
