@@ -11,7 +11,6 @@ import (
 
 type Map struct {
 	elements [][]*Element
-	cursor   *Cursor
 	screen   tcell.Screen
 }
 

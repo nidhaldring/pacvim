@@ -23,8 +23,8 @@ type Element struct {
 }
 
 func newElement(screen tcell.Screen, ch rune, x, y int) *Element {
-	elType := getEelementType(ch)
-	style := getEelementStyle(elType)
+	elType := getElementType(ch)
+	style := getElementStyle(elType)
 	return &Element{
 		x:      x,
 		y:      y,
@@ -52,7 +52,7 @@ func (e *Element) Draw() {
 	e.screen.SetContent(e.x, e.y, e.value, nil, e.style)
 }
 
-func getEelementType(ch rune) ElementType {
+func getElementType(ch rune) ElementType {
 	switch ch {
 	case '~':
 		return DEADLY
@@ -65,7 +65,7 @@ func getEelementType(ch rune) ElementType {
 	}
 }
 
-func getEelementStyle(elType ElementType) tcell.Style {
+func getElementStyle(elType ElementType) tcell.Style {
 	switch elType {
 	case DEADLY:
 		return DeadlyTheme
