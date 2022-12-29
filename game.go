@@ -101,6 +101,9 @@ func (g *Game) handleCollisionWithMap() {
 	} else if elementUnderPlayer.IsEatable() {
 		elementUnderPlayer.MarkAsEaten()
 		g.eatenElementsNumber++
+		if g.eatableElementsNumber == g.eatenElementsNumber {
+			g.win()
+		}
 	}
 }
 
