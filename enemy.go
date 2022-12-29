@@ -9,6 +9,16 @@ type Enemy struct {
 	player *Player
 }
 
+func NewEnemy(screen tcell.Screen, gMap *Map, player *Player) *Enemy {
+	return &Enemy{
+		x:      8,
+		y:      1,
+		screen: screen,
+		gMap:   gMap,
+		player: player,
+	}
+}
+
 func (e *Enemy) Move() {
 	cursorX, cursorY := e.player.GetCurrentPos()
 	if e.x != cursorX {
@@ -24,6 +34,10 @@ func (e *Enemy) Move() {
 			e.y++
 		}
 	}
+}
+
+func (e *Enemy) GetCurrentPos() (int, int) {
+	return e.x, e.y
 }
 
 func (e *Enemy) Draw() {

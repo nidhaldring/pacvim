@@ -18,6 +18,7 @@ const (
 type Game struct {
 	status                GameStatus
 	player                *Player
+	enemy                 *Enemy
 	gMap                  *Map
 	screen                tcell.Screen
 	eatenElementsNumber   int
@@ -27,12 +28,14 @@ type Game struct {
 func NewGame() *Game {
 	screen := NewScreen()
 	gMap, eatableElementsNumber := NewMap(screen)
+	player := NewPlayer(screen, gMap)
 
 	return &Game{
 		status:                PLAYING,
 		screen:                screen,
 		gMap:                  gMap,
-		player:                NewPlayer(screen, gMap),
+		player:                player,
+		enemy:                 NewEnemy(screen, gMap, player),
 		eatableElementsNumber: eatableElementsNumber,
 	}
 }
@@ -40,8 +43,8 @@ func NewGame() *Game {
 func (g *Game) Start() {
 	for {
 		g.handleEvents()
-		g.handleCollision()
 		g.draw()
+		g.handleCollision()
 	}
 }
 
@@ -51,6 +54,7 @@ func (g *Game) draw() {
 	case PLAYING:
 		g.gMap.Draw()
 		g.player.Draw()
+		g.enemy.Draw()
 		g.drawScore()
 	case WON:
 		g.drawWinningScreen()
@@ -80,6 +84,7 @@ func (g *Game) handleEvents() {
 
 func (g *Game) handleMovementEvents(ev *tcell.EventKey) {
 	g.player.Move(ev.Rune())
+	g.enemy.Move()
 }
 
 func (g *Game) handleCollision() {
@@ -100,7 +105,12 @@ func (g *Game) handleCollisionWithMap() {
 }
 
 func (g *Game) handleCollisionWithEnemies() {
+	playerX, playerY := g.player.GetCurrentPos()
+	enemyX, enemyY := g.enemy.GetCurrentPos()
 
+	if enemyX == playerX && enemyY == playerY {
+		g.lose()
+	}
 }
 
 func (g *Game) drawScore() {
