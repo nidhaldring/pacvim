@@ -27,13 +27,12 @@ type Game struct {
 func NewGame() *Game {
 	screen := NewScreen()
 	gMap := NewMap(screen)
-	cursor := NewCursor(screen)
 
 	return &Game{
 		status:                PLAYING,
 		screen:                screen,
 		gMap:                  gMap,
-		cursor:                cursor,
+		cursor:                NewCursor(screen),
 		eatableElementsNumber: gMap.eatableElementsNumber,
 	}
 }
