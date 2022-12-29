@@ -10,13 +10,12 @@ import (
 )
 
 type Map struct {
-	elements              [][]*Element
-	eatableElementsNumber int
-	cursor                *Cursor
-	screen                tcell.Screen
+	elements [][]*Element
+	cursor   *Cursor
+	screen   tcell.Screen
 }
 
-func NewMap(screen tcell.Screen) *Map {
+func NewMap(screen tcell.Screen) (*Map, int) {
 	mapLines := readMap("map.txt")
 	elements := make([][]*Element, 0)
 	eatableElementsNumber := 0
@@ -35,10 +34,9 @@ func NewMap(screen tcell.Screen) *Map {
 	}
 
 	return &Map{
-		elements:              elements,
-		eatableElementsNumber: eatableElementsNumber,
-		screen:                screen,
-	}
+		elements: elements,
+		screen:   screen,
+	}, eatableElementsNumber
 }
 
 func (m *Map) GetElementAt(x, y int) *Element {
