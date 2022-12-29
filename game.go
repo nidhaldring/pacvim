@@ -17,7 +17,7 @@ const (
 
 type Game struct {
 	status                GameStatus
-	cursor                *Cursor
+	player                *Player
 	gMap                  *Map
 	screen                tcell.Screen
 	eatenElementsNumber   int
@@ -32,7 +32,7 @@ func NewGame() *Game {
 		status:                PLAYING,
 		screen:                screen,
 		gMap:                  gMap,
-		cursor:                NewCursor(screen),
+		player:                NewPlayer(screen, gMap),
 		eatableElementsNumber: eatableElementsNumber,
 	}
 }
@@ -40,16 +40,17 @@ func NewGame() *Game {
 func (g *Game) Start() {
 	for {
 		g.handleEvents()
-		g.Draw()
+		g.handleCollision()
+		g.draw()
 	}
 }
 
-func (g *Game) Draw() {
+func (g *Game) draw() {
 	g.screen.Clear()
 	switch g.status {
 	case PLAYING:
 		g.gMap.Draw()
-		g.cursor.Draw()
+		g.player.Draw()
 		g.drawScore()
 	case WON:
 		g.drawWinningScreen()
@@ -78,38 +79,28 @@ func (g *Game) handleEvents() {
 }
 
 func (g *Game) handleMovementEvents(ev *tcell.EventKey) {
-	curX, curY := g.cursor.GetCurrentPos()
-	switch ev.Rune() {
-	case UP_KEY:
-		g.handleCursorMovements(curX, curY-1)
-	case DOWN_KEY:
-		g.handleCursorMovements(curX, curY+1)
-	case LEFT_KEY:
-		g.handleCursorMovements(curX-1, curY)
-	case RIGHT_KEY:
-		g.handleCursorMovements(curX+1, curY)
-	}
-
+	g.player.Move(ev.Rune())
 }
 
-func (g *Game) handleCursorMovements(x, y int) {
-	cursor := g.cursor
-	elm := g.gMap.GetElementAt(x, y)
-	switch elm.elType {
-	case DEADLY:
+func (g *Game) handleCollision() {
+	g.handleCollisionWithMap()
+	g.handleCollisionWithEnemies()
+}
+
+func (g *Game) handleCollisionWithMap() {
+	playerX, playerY := g.player.GetCurrentPos()
+	elementUnderPlayer := g.gMap.getElementAt(playerX, playerY)
+
+	if elementUnderPlayer.IsDeadly() {
 		g.lose()
-	case BLOCKING:
-		cursor.Beep()
-	default:
-		cursor.SetPos(x, y)
-		if elm.elType == EATABLE {
-			elm.MarkAsEaten()
-			g.eatenElementsNumber++
-			if g.eatableElementsNumber == g.eatenElementsNumber {
-				g.win()
-			}
-		}
+	} else if elementUnderPlayer.IsEatable() {
+		elementUnderPlayer.MarkAsEaten()
+		g.eatenElementsNumber++
 	}
+}
+
+func (g *Game) handleCollisionWithEnemies() {
+
 }
 
 func (g *Game) drawScore() {
@@ -136,11 +127,11 @@ func (g *Game) drawMessageToScreen(msg string) {
 }
 
 func (g *Game) drawWinningScreen() {
-	g.cursor.Hide()
-	g.drawMessageToScreen("CONGRATS, YOU HAVE WONE !")
+	g.player.Hide()
+	g.drawMessageToScreen("CONGRATS, YOU HAVE WON !")
 }
 
 func (g *Game) drawLosingScreen() {
-	g.cursor.Hide()
+	g.player.Hide()
 	g.drawMessageToScreen("YOU HAVE LOST!")
 }

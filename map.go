@@ -24,7 +24,7 @@ func NewMap(screen tcell.Screen) (*Map, int) {
 		for j := 0; j < len(mapLines[i]); j++ {
 			ch := rune(mapLines[i][j])
 			elm := newElement(screen, ch, j, i)
-			if elm.CanBeEaten() {
+			if elm.IsEatable() {
 				eatableElementsNumber++
 			}
 			row = append(row, elm)
@@ -38,8 +38,9 @@ func NewMap(screen tcell.Screen) (*Map, int) {
 	}, eatableElementsNumber
 }
 
-func (m *Map) GetElementAt(x, y int) *Element {
-	return m.elements[y][x]
+func (m *Map) IsTraversable(x, y int) bool {
+	elm := m.getElementAt(x, y)
+	return elm != nil && elm.IsTraversable()
 }
 
 func (m *Map) Draw() {
@@ -48,6 +49,13 @@ func (m *Map) Draw() {
 			elm.Draw()
 		}
 	}
+}
+
+func (m *Map) getElementAt(x, y int) *Element {
+	if y > -1 && y < len(m.elements) && x > -1 && x < len(m.elements[y]) {
+		return m.elements[y][x]
+	}
+	return nil
 }
 
 func readMap(name string) []string {

@@ -35,11 +35,15 @@ func newElement(screen tcell.Screen, ch rune, x, y int) *Element {
 	}
 }
 
-func (e *Element) Intersect(x, y int) bool {
-	return x == e.x && y == e.y
+func (e *Element) IsTraversable() bool {
+	return e.elType != BLOCKING
 }
 
-func (e *Element) CanBeEaten() bool {
+func (e *Element) IsDeadly() bool {
+	return e.elType == DEADLY
+}
+
+func (e *Element) IsEatable() bool {
 	return e.elType == EATABLE
 }
 
