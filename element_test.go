@@ -3,41 +3,41 @@ package main
 import "testing"
 
 func TestGetEelementType(t *testing.T) {
-	if getEelementType(' ') != SPACE {
+	if getElementType(' ') != SPACE {
 		t.Error("type for space is not correct")
 	}
 
-	if getEelementType('#') != BLOCKING {
+	if getElementType('#') != BLOCKING {
 		t.Error("type for blocking is not correct")
 	}
 
-	if getEelementType('~') != DEADLY {
+	if getElementType('~') != DEADLY {
 		t.Error("type for deadly is not correct")
 	}
 
-	if getEelementType('a') != EATABLE {
+	if getElementType('a') != EATABLE {
 		t.Error("type for deadly is not correct")
 	}
 }
 
 func TestGetElementStyle(t *testing.T) {
-	if getEelementStyle(SPACE) != DefTheme {
+	if getElementStyle(SPACE) != DefTheme {
 		t.Error("space theme is not correct")
 	}
 
-	if getEelementStyle(BLOCKING) != DefTheme {
+	if getElementStyle(BLOCKING) != DefTheme {
 		t.Error("blocking theme is not correct")
 	}
 
-	if getEelementStyle(DEADLY) != DeadlyTheme {
+	if getElementStyle(DEADLY) != DeadlyTheme {
 		t.Error("deadly theme is not correct")
 	}
 
-	if getEelementStyle(EATABLE) != DefTheme {
+	if getElementStyle(EATABLE) != DefTheme {
 		t.Error("eatable theme is not correct")
 	}
 
-	if getEelementStyle(EATEN) != EatenTheme {
+	if getElementStyle(EATEN) != EatenTheme {
 		t.Error("deadly theme is not correct")
 	}
 }
