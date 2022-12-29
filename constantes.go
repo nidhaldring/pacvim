@@ -7,4 +7,8 @@ var (
 	EatenTheme  = tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorGreen)
 	DeadlyTheme = tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorRed)
 	ScoreTheme  = tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorRed)
+	UP_KEY      = 'k'
+	DOWN_KEY    = 'j'
+	LEFT_KEY    = 'h'
+	RIGHT_KEY   = 'l'
 )
