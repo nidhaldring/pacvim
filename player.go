@@ -1,6 +1,8 @@
 package main
 
-import "github.com/gdamore/tcell"
+import (
+	"github.com/gdamore/tcell"
+)
 
 type Player struct {
 	x, y   int
@@ -54,10 +56,10 @@ func (p *Player) Hide() {
 	p.screen.HideCursor()
 }
 
-func (p *Player) beep() {
-	p.screen.Beep()
-}
-
 func (p *Player) GetCurrentPos() (int, int) {
 	return p.x, p.y
+}
+
+func (p *Player) beep() {
+	p.screen.Beep()
 }
