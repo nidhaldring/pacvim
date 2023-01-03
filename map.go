@@ -51,11 +51,65 @@ func (m *Map) Draw() {
 	}
 }
 
+func (m *Map) IsReachable(startX, startY, goalX, goalY int) bool {
+	goalElm := m.getElementAt(goalX, goalY)
+	if goalElm == nil {
+		return false
+	}
+
+	stack := NewStack()
+	visited := NewStack()
+
+	visited.Push(m.getElementAt(startX, startY))
+	stack.Push(m.getElementAt(startX, startY))
+	for stack.IsNotEmpty() {
+		elm := stack.Pop()
+		if elm == goalElm {
+			return true
+		}
+
+		neighbors := m.getTraversableNeighbors(elm)
+		for _, n := range neighbors {
+			if !visited.Contains(n) {
+				stack.Push(n)
+			}
+		}
+
+	}
+	return false
+}
+
 func (m *Map) getElementAt(x, y int) *Element {
 	if y > -1 && y < len(m.elements) && x > -1 && x < len(m.elements[y]) {
 		return m.elements[y][x]
 	}
 	return nil
+}
+
+func (m *Map) getTraversableNeighbors(e *Element) []*Element {
+	neighbors := make([]*Element, 0)
+
+	up := m.getElementAt(e.x-1, e.y)
+	if up != nil && up.IsTraversable() {
+		neighbors = append(neighbors, up)
+	}
+
+	down := m.getElementAt(e.x+1, e.y)
+	if down != nil && down.IsTraversable() {
+		neighbors = append(neighbors, down)
+	}
+
+	left := m.getElementAt(e.x, e.y-1)
+	if left != nil && left.IsTraversable() {
+		neighbors = append(neighbors, left)
+	}
+
+	right := m.getElementAt(e.x, e.y+1)
+	if right != nil && right.IsTraversable() {
+		neighbors = append(neighbors, right)
+	}
+
+	return neighbors
 }
 
 func readMap(name string) []string {

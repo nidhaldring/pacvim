@@ -23,10 +23,6 @@ func NewEnemy(screen tcell.Screen, gMap *Map, player *Player) *Enemy {
 }
 
 func (e *Enemy) Move() {
-	cursorX, cursorY := e.player.GetCurrentPos()
-	for {
-
-	}
 
 }
 
