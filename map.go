@@ -51,32 +51,31 @@ func (m *Map) Draw() {
 	}
 }
 
-func (m *Map) IsReachable(startX, startY, goalX, goalY int) bool {
+func (m *Map) GetNextMoveToGoal(startX, startY, goalX, goalY int) (int, int) {
 	goalElm := m.getElementAt(goalX, goalY)
-	if goalElm == nil {
-		return false
-	}
 
 	stack := NewStack()
 	visited := NewStack()
 
-	visited.Push(m.getElementAt(startX, startY))
-	stack.Push(m.getElementAt(startX, startY))
+	visited.Push(&NodePath{m.getElementAt(startX, startY), nil})
+	stack.Push(&NodePath{m.getElementAt(startX, startY), nil})
 	for stack.IsNotEmpty() {
-		elm := stack.Pop()
-		if elm == goalElm {
-			return true
+		nodePath := stack.Pop()
+		visited.Push(nodePath)
+		if nodePath.n == goalElm {
+			return GetFirstMoveInPath(nodePath)
 		}
 
-		neighbors := m.getTraversableNeighbors(elm)
+		neighbors := m.getTraversableNeighbors(nodePath.n)
 		for _, n := range neighbors {
 			if !visited.Contains(n) {
-				stack.Push(n)
+				stack.Push(&NodePath{n, nodePath})
 			}
 		}
 
 	}
-	return false
+
+	return -1, -1
 }
 
 func (m *Map) getElementAt(x, y int) *Element {
